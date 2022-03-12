@@ -27,7 +27,7 @@ namespace ConsoleApp_Testes_Aleatorios
         {
             try
             {
-                string token_str = $"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHRfc3NsX2tleSJ9.ew0KICAiaXNzIjogImh0dHBzOi8vYXBpLWRlcy5iYW5jb3ZvdG9yYW50aW0uY29tLmJyOjQ0MyIsDQogICJpYXQiOjE2MjA4NDU5NDksDQogICJhdWQiOiJsN3h4OTQwNDYxOTdmZTIxNDBjODllN2FjOTRkYmExY2NlZDQiLA0KICAiZXhwIjoxNjIwODQ5NTQ5LA0KICAianRpIjoiNDFiNmI5ZmYtMTFiOS00YjE2LTgyZGYtZGJjNTViOTc4NTg2IiwNCiAgInRva2VuX2RldGFpbHMiOiB7DQogICAgInNjb3BlIjoib29iIiwNCiAgICAiZXhwaXJlc19pbiI6MzYwMCwNCiAgICAidG9rZW5fdHlwZSI6IkJlYXJlciIsDQogICAgInVzZXJuYW1lIjoiIiwNCiAgICAicm9sZXMiOiIiDQogIH0NCn0.D2v7lIq2MMcaIVyld9Gnj4hIZV0ZdotON2Q6Jlg7HLunvajjlcUNA9_dPnL5M72gV82XEVZBHEP4-II23ap5NZdqUaj41e44BQw-SjN6CCTsUiJ3MH34Zb2ZQL6VQnI8GExpqvMV_w9lKTVpnz0_CUccZ2s0uHZELgqxJECokSeJ2ead44dE1NmRcqJKyM3qHkjjh36z5WiZ6rXAXRqeP0g5iUX2noqU1SrRbjSMxw0pzPgp5WiTT45wTYoU7PCLytb8EiBatMXcG_3jwF_MG52vEUVcNUHkGKxLhDJF_vuA_9q0rRQXVLT6_eyLoEfi9hYFE8gu54uxdoIFNYxSYg";
+                string token_str = $"TOKEN_JWT_STR";
 
                 //valida (se ele contém uma estrutura bem formada)
                 try
@@ -39,14 +39,14 @@ namespace ConsoleApp_Testes_Aleatorios
                     var assignature = Base64Url.Decode(token_mapeado.RawSignature);
 
                     //valida se emissor(iss/issuer) é o banco BV
-                    if (token_mapeado.Payload.Iss != "https://api-des.bancovotorantim.com.br:443")
-                        return new RetornoModel() { code = "99", message = $"Emissor(iss) não é o banco BV!" };
+                    if (token_mapeado.Payload.Iss != "https://api-des.site.com.br:443")
+                        return new RetornoModel() { code = "99", message = $"Emissor(iss) não é o xxxx!" };
 
                     //Valida se está dentro da validade
                     if (UnixTimeStampToDateTime(Convert.ToDouble(token_mapeado.Payload.Exp)) < DateTime.Now.ToLocalTime())
                         return new RetornoModel() { code = "99", message = $"Token Expirado!" };
 
-                    //Valida se chave publica BV da url jwks corresponde ao token jwt enviado na requisição atual
+                    //Valida se chave publica empresa xx da url jwks corresponde ao token jwt enviado na requisição atual
                     if (!validatePublicKeyJWT(token_str))
                         return new RetornoModel() { code = "99", message = $"Assinatura do Token não está correta!" };
                 }
@@ -69,7 +69,7 @@ namespace ConsoleApp_Testes_Aleatorios
         {
             try
             {
-                var client = new RestClient("https://api-des.bancovotorantim.com.br/");
+                var client = new RestClient("https://api-des.site.com.br/");
                 var request = new RestRequest("openid/connect/jwks.json", DataFormat.Json);
                 var response = client.Get(request);
 
